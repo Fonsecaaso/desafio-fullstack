@@ -52,11 +52,11 @@ public class TransactionService {
                 .toList();
 
         vendaProdutor.forEach(venda -> {
-            User produtor = userRepository.findByName(venda.getVendedor());
+            UserEntity produtor = userRepository.findByName(venda.getVendedor());
             if(produtor == null)
-                produtor = new User(venda.getVendedor(),venda.getValor(),true);
+                produtor = new UserEntity(venda.getVendedor(),venda.getValor(),true);
 
-            Curso curso = Curso.builder().nome(venda.getProduto()).responsavel(produtor).build();
+            Curso curso = Curso.builder().name(venda.getProduto()).responsavel(produtor).build();
             saveVenda(Venda.builder().vendedor(produtor).curso(curso).valor(venda.getValor()).build(), produtor);
         });
     }
@@ -67,14 +67,14 @@ public class TransactionService {
                 .toList();
 
         vendaAfiliado.forEach(venda -> {
-            User produtor = cursoRepository.findByNomeCurso(venda.getProduto());
-            User vendedor = userRepository.findByName(venda.getVendedor());
+            UserEntity produtor = cursoRepository.findByNameCurso(venda.getProduto());
+            UserEntity vendedor = userRepository.findByName(venda.getVendedor());
             if(vendedor == null){
-                vendedor = new User(venda.getVendedor(),0.0,false);
+                vendedor = new UserEntity(venda.getVendedor(),0.0,false);
                 userRepository.save(vendedor, 0.0);
             }
 
-            Curso curso = Curso.builder().nome(venda.getProduto()).responsavel(produtor).build();
+            Curso curso = Curso.builder().name(venda.getProduto()).responsavel(produtor).build();
             saveVenda(Venda.builder().vendedor(vendedor).curso(curso).valor(venda.getValor()).build(), produtor);
         });
     }
@@ -85,7 +85,7 @@ public class TransactionService {
                 .toList();
 
         pagamentos.forEach(pagamento -> {
-            User produtor = userRepository.findByName(pagamento.getVendedor());
+            UserEntity produtor = userRepository.findByName(pagamento.getVendedor());
             userRepository.save(produtor, -1*pagamento.getValor());
         });
     }
@@ -96,13 +96,13 @@ public class TransactionService {
                 .toList();
 
         recebimentos.forEach(pagamento -> {
-            User afiliado = userRepository.findByName(pagamento.getVendedor());
+            UserEntity afiliado = userRepository.findByName(pagamento.getVendedor());
             userRepository.save(afiliado, pagamento.getValor());
         });
     }
 
     @Transactional
-    private void saveVenda(Venda venda, User produtor){
+    private void saveVenda(Venda venda, UserEntity produtor){
         userRepository.save(produtor, venda.getValor());
         venda.setCurso(cursoRepository.save(venda.getCurso()));
         vendaRepository.save(venda);

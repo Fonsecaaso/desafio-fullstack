@@ -24,16 +24,16 @@ public class Venda {
 
     @ManyToOne
     @JoinColumn(name = "vendedor")
-    User vendedor;
+    UserEntity vendedor;
 
-    public Venda(String produto, Double valor, User vendedor) {
+    public Venda(String produto, Double valor, UserEntity vendedor) {
     }
 
-    public User getVendedor() {
+    public UserEntity getVendedor() {
         return vendedor;
     }
 
-    public void setVendedor(User vendedor) {
+    public void setVendedor(UserEntity vendedor) {
         this.vendedor = vendedor;
     }
     public void setCurso(Curso curso) {

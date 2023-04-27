@@ -2,7 +2,7 @@ package com.hubla.DesafioBack;
 
 import com.hubla.DesafioBack.entity.Erro;
 import com.hubla.DesafioBack.entity.UploadRequest;
-import com.hubla.DesafioBack.entity.User;
+import com.hubla.DesafioBack.entity.UserEntity;
 import com.hubla.DesafioBack.repository.CursoRepositoryI;
 import com.hubla.DesafioBack.repository.TransactionRepository;
 import com.hubla.DesafioBack.repository.UserRepositoryI;
@@ -47,7 +47,7 @@ public class UploadServiceTests {
         Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/sales1.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
-        when(userRepository.findByName(any())).thenReturn(new User());
+        when(userRepository.findByName(any())).thenReturn(new UserEntity());
         when(cursoRepository.save(any())).thenReturn(null);
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
@@ -59,7 +59,7 @@ public class UploadServiceTests {
         Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/sales2.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
-        when(userRepository.findByName(any())).thenReturn(new User());
+        when(userRepository.findByName(any())).thenReturn(new UserEntity());
         when(cursoRepository.save(any())).thenReturn(null);
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
@@ -73,7 +73,7 @@ public class UploadServiceTests {
         Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/codigo_invalido.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
-        when(userRepository.findByName(any())).thenReturn(new User());
+        when(userRepository.findByName(any())).thenReturn(new UserEntity());
         when(cursoRepository.save(any())).thenReturn(null);
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
@@ -88,7 +88,7 @@ public class UploadServiceTests {
         Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/vendedor_naopreenchido.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
-        when(userRepository.findByName(any())).thenReturn(new User());
+        when(userRepository.findByName(any())).thenReturn(new UserEntity());
         when(cursoRepository.save(any())).thenReturn(null);
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
@@ -103,7 +103,7 @@ public class UploadServiceTests {
         Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/data_formato_errado.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
-        when(userRepository.findByName(any())).thenReturn(new User());
+        when(userRepository.findByName(any())).thenReturn(new UserEntity());
         when(cursoRepository.save(any())).thenReturn(null);
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
@@ -118,7 +118,7 @@ public class UploadServiceTests {
         Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/produto_nao_preenchido.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
-        when(userRepository.findByName(any())).thenReturn(new User());
+        when(userRepository.findByName(any())).thenReturn(new UserEntity());
         when(cursoRepository.save(any())).thenReturn(null);
 
         ResponseEntity<?> res = transactionService.processTransactions(req);

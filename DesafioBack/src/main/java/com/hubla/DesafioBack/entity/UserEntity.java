@@ -11,12 +11,13 @@ import java.util.List;
 @Table(name = "users")
 @Data
 @NoArgsConstructor
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String nome;
+    private String name;
+    private String email;
 
     private Double saldo;
 
@@ -30,8 +31,8 @@ public class User {
     private List<Role> roles = new ArrayList<>();
 
 
-    public User(String nome, Double saldo, boolean produtor) {
-        this.nome = nome;
+    public UserEntity(String name, Double saldo, boolean produtor) {
+        this.name = name;
         this.saldo = saldo;
         this.produtor = produtor;
     }

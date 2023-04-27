@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserDTO {
-    private String nome;
+    private String name;
     private Double saldo;
     private Boolean produtor;
 }

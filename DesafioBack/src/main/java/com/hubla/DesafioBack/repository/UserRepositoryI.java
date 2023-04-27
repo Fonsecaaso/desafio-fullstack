@@ -1,6 +1,6 @@
 package com.hubla.DesafioBack.repository;
 
-import com.hubla.DesafioBack.entity.User;
+import com.hubla.DesafioBack.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,22 +12,22 @@ public class UserRepositoryI {
     UserRepository userRepository;
 
 
-    public void save(User user, Double mudanca){
-        User usuarioExistente = userRepository.findByNome(user.getNome()); // Busca o usuário pelo ID
+    public void save(UserEntity userEntity, Double mudanca){
+        UserEntity usuarioExistente = userRepository.findByName(userEntity.getName()); // Busca o usuário pelo ID
         if(usuarioExistente != null) {
             usuarioExistente.setSaldo(usuarioExistente.getSaldo() + mudanca); // Atualiza o saldo
             userRepository.save(usuarioExistente);
         }else{
-            userRepository.save(user);
+            userRepository.save(userEntity);
         }
     }
 
-    public User findByName(String name){
-        return userRepository.findByNome(name);
+    public UserEntity findByName(String name){
+        return userRepository.findByName(name);
 
     }
 
-    public List<User> findAll(){
+    public List<UserEntity> findAll(){
         return userRepository.findAll();
     }
 }

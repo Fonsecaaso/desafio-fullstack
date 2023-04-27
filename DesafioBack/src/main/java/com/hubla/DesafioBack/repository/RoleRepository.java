@@ -1,6 +1,7 @@
 package com.hubla.DesafioBack.repository;
 
-import com.demo.Sistema.de.Monitoramento.V1.model.entity.Role;
+
+import com.hubla.DesafioBack.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

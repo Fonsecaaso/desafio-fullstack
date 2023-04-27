@@ -1,4 +1,4 @@
-package com.demo.Sistema.de.Monitoramento.V1.model.dto;
+package com.hubla.DesafioBack.entity.dto;
 
 import lombok.Data;
 

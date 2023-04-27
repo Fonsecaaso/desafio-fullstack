@@ -1,4 +1,4 @@
-package com.demo.Sistema.de.Monitoramento.V1.security;
+package com.hubla.DesafioBack.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,14 +41,6 @@ public class SecurityConfig {
             .and()
             .authorizeHttpRequests()
                 .requestMatchers("/api/auth/**").permitAll()
-                .requestMatchers("/robots/**").permitAll()
-                .requestMatchers("/condominium/**").hasAnyAuthority("ADMIN","SUPERVISOR")
-//                .requestMatchers("/robots/**").hasAnyAuthority("ADMIN","SUPERVISOR")
-                .requestMatchers("/users/supervisor").hasAuthority("ADMIN")
-                .requestMatchers("/users/admin").hasAuthority("ADMIN")
-                .requestMatchers("/users/user").hasAnyAuthority("ADMIN","SUPERVISOR")
-                .requestMatchers("/users/**").hasAnyAuthority("USER","ADMIN","SUPERVISOR")
-                .requestMatchers("/ip").permitAll()
             .anyRequest().authenticated()
             .and()
             .httpBasic();

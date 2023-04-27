@@ -17,10 +17,10 @@ public class Curso {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String nome;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "responsavel")
-    private User responsavel;
+    private UserEntity responsavel;
 
 }

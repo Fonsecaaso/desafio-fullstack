@@ -1,13 +1,13 @@
-package com.demo.Sistema.de.Monitoramento.V1.security;
+package com.hubla.DesafioBack.security;
 
-import com.demo.Sistema.de.Monitoramento.V1.model.entity.Role;
-import com.demo.Sistema.de.Monitoramento.V1.model.entity.UserEntity;
-import com.demo.Sistema.de.Monitoramento.V1.repository.UserRepositoryJPA;
+import com.hubla.DesafioBack.entity.Role;
+import com.hubla.DesafioBack.entity.UserEntity;
+import com.hubla.DesafioBack.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,20 +19,22 @@ import java.util.stream.Collectors;
 @Service
 public class CustomUserDetailsService  implements UserDetailsService {
 
-    private UserRepositoryJPA userRepositoryJPA;
+    private UserRepository userRepository;
 
     @Autowired
-    public CustomUserDetailsService(UserRepositoryJPA userRepositoryJPA) {
-        this.userRepositoryJPA = userRepositoryJPA;
+    public CustomUserDetailsService(UserRepository userRepositoryJPA) {
+        this.userRepository = userRepositoryJPA;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity user = userRepositoryJPA.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
-        return new User(user.getUsername(), user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+        UserEntity userEntity = userRepository.findByName(username);//(() -> new UsernameNotFoundException("Username not found"));
+        if(userEntity ==null) throw new UsernameNotFoundException("Username not found");
+        return new User(userEntity.getName(), userEntity.getPassword(), mapRolesToAuthorities(userEntity.getRoles()));
     }
 
     private Collection<GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
     }
+
 }

@@ -1,7 +1,7 @@
 package com.hubla.DesafioBack.repository;
 
 import com.hubla.DesafioBack.entity.Curso;
-import com.hubla.DesafioBack.entity.User;
+import com.hubla.DesafioBack.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,13 +13,13 @@ public class CursoRepositoryI {
 //    UserRepository userRepository;
 
     public Curso save(Curso curso){
-        Curso c = cursoRepository.findByNome(curso.getNome());
+        Curso c = cursoRepository.findByName(curso.getName());
         if(c == null)
             return cursoRepository.save(curso);
         return c;
     }
 
-    public User findByNomeCurso(String nomeCurso) {
-        return cursoRepository.findByNomeCurso(nomeCurso);
+    public UserEntity findByNameCurso(String nameCurso) {
+        return cursoRepository.findByNameCurso(nameCurso);
     }
 }

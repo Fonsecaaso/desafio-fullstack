@@ -1,4 +1,4 @@
-package com.demo.Sistema.de.Monitoramento.V1.security;
+package com.hubla.DesafioBack.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
