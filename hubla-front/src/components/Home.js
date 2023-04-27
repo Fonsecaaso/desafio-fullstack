@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import './styles.css';
+import { Link } from "react-router-dom";
 
 function Home(props) {
 
@@ -31,10 +32,15 @@ function Home(props) {
 
   return (
     <div className="container">
+        <form>
+            <Link to="/transactions">
+                <button>Ver histórico de transações</button>
+            </Link>
+        </form>
       <h2>Bem-vindo, usuário!</h2>
       <form>
         <div>
-            <label for="arquivo">Enviar arquivo</label>
+            <label for="arquivo">Enviar arquivo .txt: </label>
             <input type="file" onChange={handleFileSelect}/>
         </div>
       </form>
