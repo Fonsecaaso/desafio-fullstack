@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import './styles.css';
 
-function PaginaPrincipal(props) {
+function Home(props) {
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
@@ -11,9 +11,10 @@ function PaginaPrincipal(props) {
     reader.onload = (event) => {
       const fileContents = event.target.result;
       axios
-          .post("http://0.0.0.0:8087/users", { file: fileContents })
+          .post("http://0.0.0.0:8087/transactions", { file: fileContents })
           .then((response) => {
             if(response.status===202){
+              console.log(response.data);
               window.alert("upload bem sucedido");
             }else{
               const messages = response.data.map(pessoa => pessoa.message + " - linha " + pessoa.linha);
@@ -42,6 +43,6 @@ function PaginaPrincipal(props) {
   );
 }
 
-export default PaginaPrincipal;
+export default Home;
 
 
