@@ -1,9 +1,15 @@
 import React from "react";
 import axios from "axios";
 import './styles.css';
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 function Home(props) {
+  const userToken = localStorage.getItem("token");
+  const username = localStorage.getItem("username");
+
+  if (userToken == null) {
+    return <Navigate to="/login" />;
+  }
 
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
@@ -12,7 +18,7 @@ function Home(props) {
     reader.onload = (event) => {
       const fileContents = event.target.result;
       axios
-          .post("http://0.0.0.0:8087/transactions", { file: fileContents })
+          .post("http://0.0.0.0:8080/transactions", { file: fileContents })
           .then((response) => {
             if(response.status===202){
               console.log(response.data);
@@ -34,13 +40,13 @@ function Home(props) {
     <div className="container">
         <form>
             <Link to="/transactions">
-                <button>Ver histórico de transações</button>
+                <button className="btn-login" >Ver histórico de transações</button>
             </Link>
             <Link to="/userlist">
-                <button>Ver saldo dos usuários</button>
+                <button className="btn-login" >Ver saldo dos usuários</button>
             </Link>
         </form>
-      <h2>Bem-vindo, usuário!</h2>
+      <h2>Bem-vindo, {username}!</h2>
       <form>
         <div>
             <label for="arquivo">Enviar arquivo .txt: </label>

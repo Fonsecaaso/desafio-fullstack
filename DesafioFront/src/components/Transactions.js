@@ -1,19 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@material-ui/core';
 
 
 function Transactions() {
   const [transactions, setTransactions] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
-  
+  const [searchValue, setSearchValue] = useState("");  
+  const userToken = localStorage.getItem("token");
+
+
   useEffect(() => {
     async function fetchData() {
-    const response = await axios.get("http://0.0.0.0:8087/transactions");
+    const response = await axios.get("http://0.0.0.0:8080/transactions");
     setTransactions(response.data);
     }
     fetchData();
   }, []);
+
+  if (userToken == null) {
+    return <Navigate to="/login" />;
+  }
+  
 
   const filteredTransactions = transactions.filter((transaction) => {
     return (

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Navigate } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -16,15 +17,19 @@ import {
 function UserList() {
   const [users, setUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const userToken = localStorage.getItem("token");
   
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("http://0.0.0.0:8087/users");
+      const response = await axios.get("http://0.0.0.0:8080/users");
       setUsers(response.data);
     }
     fetchData();
   }, []);
-
+  
+  if (userToken == null) {
+    return <Navigate to="/login" />;
+  }
 
   const filteredUsers = users.filter((user) =>
     user.nome.toLowerCase().includes(searchTerm.toLowerCase())

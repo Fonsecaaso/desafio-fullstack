@@ -1,10 +1,15 @@
 package com.hubla.DesafioBack.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
+@Data
 @NoArgsConstructor
 public class User {
 
@@ -17,6 +22,13 @@ public class User {
 
     private Boolean produtor;
 
+    private String password;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles = new ArrayList<>();
+
 
     public User(String nome, Double saldo, boolean produtor) {
         this.nome = nome;
@@ -24,34 +36,5 @@ public class User {
         this.produtor = produtor;
     }
 
-
-    // Getters e Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Double getSaldo() {
-        return saldo;
-    }
-    public Boolean getProdutor() {
-        return produtor;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
-    }
 }
 
