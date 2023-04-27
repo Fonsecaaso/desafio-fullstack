@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Home from "./components/Home";
 import Transactions from "./components/Transactions";
+import UserList from "./components/UserList";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -15,6 +16,7 @@ root.render(
         <Route index element={<App />} />
         <Route path="home" element={<Home />} />
         <Route path="transactions" element={<Transactions />} />
+        <Route path="userlist" element={<UserList />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

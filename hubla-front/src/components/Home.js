@@ -36,6 +36,9 @@ function Home(props) {
             <Link to="/transactions">
                 <button>Ver histórico de transações</button>
             </Link>
+            <Link to="/userlist">
+                <button>Ver saldo dos usuários</button>
+            </Link>
         </form>
       <h2>Bem-vindo, usuário!</h2>
       <form>
