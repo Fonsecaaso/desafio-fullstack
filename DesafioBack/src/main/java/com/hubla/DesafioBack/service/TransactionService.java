@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,8 @@ public class TransactionService {
     TransactionRepository transactionRepository;
 
     public ResponseEntity<?> processTransactions(UploadRequest req) {
-        List<Transaction> transactions = sanitizeInput(req);
+        List<Erro> erros = new ArrayList<>();
+        List<Transaction> transactions = sanitizeInput(req, erros);
 
 
         processaVendasProdutor(transactions);
@@ -35,6 +39,8 @@ public class TransactionService {
 
         processaPagamentos(transactions);
         processaRecebimentos(transactions);
+
+        if(erros.size()>0) return new ResponseEntity<>(erros, HttpStatus.PARTIAL_CONTENT);
 
         transactionRepository.saveAll(transactions);
 
@@ -102,7 +108,7 @@ public class TransactionService {
         vendaRepository.save(venda);
     }
 
-    private List<Transaction> sanitizeInput(UploadRequest req){
+    private List<Transaction> sanitizeInput(UploadRequest req, List<Erro> erros){
         String[] registers = req.getFile().split("\n");
 
         List<Transaction> transactions = new ArrayList<>();
@@ -116,11 +122,51 @@ public class TransactionService {
                     .valor(Double.parseDouble(register.substring(56,66)))
                     .vendedor(register.substring(66))
                     .build();
-
+            handleErrors(erros,temp,register,i);
             transactions.add(temp);
         }
 
         return transactions;
+    }
+
+    private void handleErrors(List<Erro> erros, Transaction temp, String register, int i) {
+        if(temp.getTipo().equals("erro")){
+            Erro erro = Erro.builder()
+                    .linha(String.valueOf(i+1))
+                    .message("campo tipo com input inválido")
+                    .conteudoInput(register)
+                    .build();
+            erros.add(erro);
+        }
+        if(temp.getVendedor()==null || temp.getVendedor().trim().length() == 0){
+            Erro erro = Erro.builder()
+                    .linha(String.valueOf(i+1))
+                    .message("campo vendedor não preenchido")
+                    .conteudoInput(register)
+                    .build();
+            erros.add(erro);
+        }
+        if(temp.getProduto()==null || temp.getProduto().trim().length() == 0){
+            Erro erro = Erro.builder()
+                    .linha(String.valueOf(i+1))
+                    .message("campo produto não preenchido")
+                    .conteudoInput(register)
+                    .build();
+            erros.add(erro);
+        }
+
+        DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
+        sdf.setLenient(false);
+        try {
+            sdf.parse(temp.getData());
+        } catch (ParseException e) {
+            Erro erro = Erro.builder()
+                    .linha(String.valueOf(i+1))
+                    .message("campo data em formato errado")
+                    .conteudoInput(register)
+                    .build();
+            erros.add(erro);
+        }
     }
 
     private String checkType(char ch){
