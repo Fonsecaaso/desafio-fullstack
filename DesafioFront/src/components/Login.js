@@ -11,7 +11,7 @@ function Login() {
 
   const handleLogin = () => {
     axios
-      .post("http://0.0.0.0:8080/api/auth/login", { username, password })
+      .post("http://localhost:8085/api/auth/login", { username, password })
       .then((response) => {
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("username", username);

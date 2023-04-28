@@ -18,7 +18,7 @@ function Home(props) {
     reader.onload = (event) => {
       const fileContents = event.target.result;
       axios
-          .post("http://0.0.0.0:8080/transactions", { file: fileContents })
+          .post("http://localhost:8085/transactions", { file: fileContents })
           .then((response) => {
             if(response.status===202){
               console.log(response.data);

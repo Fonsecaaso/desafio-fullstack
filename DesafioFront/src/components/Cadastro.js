@@ -14,7 +14,7 @@ function Cadastro() {
   const handleLogin = () => {
     console.log(userType);
     axios
-      .post("http://0.0.0.0:8080/api/auth/register?role="+userType, { username, password, email })
+      .post("http://localhost:8085/api/auth/register?role="+userType, { username, password, email })
       .then((response) => {
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("username", username);

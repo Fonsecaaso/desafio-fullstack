@@ -12,7 +12,7 @@ function Transactions() {
 
   useEffect(() => {
     async function fetchData() {
-    const response = await axios.get("http://0.0.0.0:8080/transactions");
+    const response = await axios.get("http://localhost:8085/transactions");
     setTransactions(response.data);
     }
     fetchData();

@@ -21,7 +21,7 @@ function UserList() {
   
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get("http://0.0.0.0:8080/users");
+      const response = await axios.get("http://localhost:8085/users");
       setUsers(response.data);
     }
     fetchData();

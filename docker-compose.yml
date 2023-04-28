@@ -27,7 +27,7 @@ services:
       spring.datasource.password: 'password'
       server.error.include-message: always
     ports:
-      - '8080:8080'
+      - '8085:8085'
     command: mvn spring-boot:run
     networks:
       net:

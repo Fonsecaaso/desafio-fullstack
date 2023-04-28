@@ -24,12 +24,12 @@ Para executar o sistema, certifique-se de ter o Docker instalado em sua máquina
 
 ``` docker-compose up ```
 
-Isso iniciará o frontend, o backend e o banco de dados em contêineres do Docker. O frontend estará acessível em http://localhost:3000, enquanto o backend estará acessível em http://localhost:8080.
+Isso iniciará o frontend, o backend e o banco de dados em contêineres do Docker. O frontend estará acessível em http://localhost:3000, enquanto o backend estará acessível em http://localhost:8085.
 
 
 ## Documentação
 
-Para documentar a API backend, usamos o Swagger. Você pode acessar a documentação da API em http://localhost:8080/swagger-ui/index.html quando o serviço de backend estiver sendo executado. Lá você encontrará todos os endpoints da API, juntamente com os parâmetros e respostas esperados. Isso torna mais fácil entender como a API funciona e como interagir com ela.
+Para documentar a API backend, usamos o Swagger. Você pode acessar a documentação da API em http://localhost:8085/swagger-ui/index.html quando o serviço de backend estiver sendo executado. Lá você encontrará todos os endpoints da API, juntamente com os parâmetros e respostas esperados. Isso torna mais fácil entender como a API funciona e como interagir com ela.
 
 
 Este projeto foi desenvolvido por Mateus Fonseca Piris. Se você tiver alguma dúvida ou sugestão, entre em contato comigo pelo email mateusfonseca27@yahoo.com.br.
