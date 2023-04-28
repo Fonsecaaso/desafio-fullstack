@@ -41,11 +41,11 @@ public class TransactionService {
         success += processaPagamentos(transactions);
         success += processaRecebimentos(transactions);
 
+        transactionRepository.saveAll(transactions);
+
         if(success==0) return new ResponseEntity<>(erros, HttpStatus.UNPROCESSABLE_ENTITY);
 
         if(erros.size()>0) return new ResponseEntity<>(erros, HttpStatus.PARTIAL_CONTENT);
-
-        transactionRepository.saveAll(transactions);
 
         return new ResponseEntity<>(transactions, HttpStatus.ACCEPTED);
     }

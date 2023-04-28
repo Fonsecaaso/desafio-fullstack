@@ -44,7 +44,7 @@ public class UploadServiceTests {
 
     @Test
     public void testaInputValido() throws IOException {
-        Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/sales1.txt");
+        Path path = Paths.get("src/test/java/Resources/sales1.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
         when(userRepository.findByName(any())).thenReturn(new UserEntity());
@@ -56,7 +56,7 @@ public class UploadServiceTests {
     }
     @Test
     public void testaInputInvalido() throws IOException {
-        Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/sales2.txt");
+        Path path = Paths.get("src/test/java/Resources/sales2.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
         when(userRepository.findByName(any())).thenReturn(new UserEntity());
@@ -70,7 +70,7 @@ public class UploadServiceTests {
     }
     @Test
     public void testaCodigoInvalido() throws IOException {
-        Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/codigo_invalido.txt");
+        Path path = Paths.get("src/test/java/Resources/codigo_invalido.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
         when(userRepository.findByName(any())).thenReturn(new UserEntity());
@@ -85,7 +85,7 @@ public class UploadServiceTests {
     }
     @Test
     public void testaVendedorNaoPreenchido() throws IOException {
-        Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/vendedor_naopreenchido.txt");
+        Path path = Paths.get("src/test/java/Resources/vendedor_naopreenchido.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
         when(userRepository.findByName(any())).thenReturn(new UserEntity());
@@ -100,7 +100,7 @@ public class UploadServiceTests {
     }
     @Test
     public void testaDataFormatoErrado() throws IOException {
-        Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/data_formato_errado.txt");
+        Path path = Paths.get("src/test/java/Resources/data_formato_errado.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
         when(userRepository.findByName(any())).thenReturn(new UserEntity());
@@ -115,7 +115,7 @@ public class UploadServiceTests {
     }
     @Test
     public void testaPrdutoNaoPreenchido() throws IOException {
-        Path path = Paths.get("/home/mateus/Downloads/desafio-programacao-fullstack-1.2.0/DesafioBack/src/test/java/Resources/produto_nao_preenchido.txt");
+        Path path = Paths.get("src/test/java/Resources/produto_nao_preenchido.txt");
         UploadRequest req = new UploadRequest();
         req.setFile(Files.readString(path));
         when(userRepository.findByName(any())).thenReturn(new UserEntity());
