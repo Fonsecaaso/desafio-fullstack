@@ -2,13 +2,13 @@ package com.hubla.DesafioBack.controller;
 
 import com.hubla.DesafioBack.entity.Role;
 import com.hubla.DesafioBack.entity.UserEntity;
+import com.hubla.DesafioBack.entity.dto.LoginDTO;
 import com.hubla.DesafioBack.repository.RoleRepository;
 import com.hubla.DesafioBack.repository.UserRepository;
 import com.hubla.DesafioBack.security.JWTGenerator;
 import com.hubla.DesafioBack.entity.dto.AuthResponseDTO;
 import com.hubla.DesafioBack.entity.dto.RegisterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

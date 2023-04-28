@@ -1,4 +1,4 @@
-package com.hubla.DesafioBack.controller;
+package com.hubla.DesafioBack.entity.dto;
 
 import lombok.Data;
 

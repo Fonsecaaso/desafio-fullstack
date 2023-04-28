@@ -33,12 +33,15 @@ public class TransactionService {
         List<Erro> erros = new ArrayList<>();
         List<Transaction> transactions = sanitizeInput(req, erros);
 
+        int success = 0;
 
-        processaVendasProdutor(transactions);
-        processaVendasAfiliado(transactions);
+        success += processaVendasProdutor(transactions);
+        success += processaVendasAfiliado(transactions);
 
-        processaPagamentos(transactions);
-        processaRecebimentos(transactions);
+        success += processaPagamentos(transactions);
+        success += processaRecebimentos(transactions);
+
+        if(success==0) return new ResponseEntity<>(erros, HttpStatus.UNPROCESSABLE_ENTITY);
 
         if(erros.size()>0) return new ResponseEntity<>(erros, HttpStatus.PARTIAL_CONTENT);
 
@@ -46,7 +49,7 @@ public class TransactionService {
 
         return new ResponseEntity<>(transactions, HttpStatus.ACCEPTED);
     }
-    private void processaVendasProdutor(List<Transaction> transactions) {
+    private int processaVendasProdutor(List<Transaction> transactions) {
         List<Transaction> vendaProdutor = transactions.stream()
                 .filter(transaction -> transaction.getTipo().equals("Venda Produtor"))
                 .toList();
@@ -59,9 +62,11 @@ public class TransactionService {
             Curso curso = Curso.builder().name(venda.getProduto()).responsavel(produtor).build();
             saveVenda(Venda.builder().vendedor(produtor).curso(curso).valor(venda.getValor()).build(), produtor);
         });
+
+        return vendaProdutor.size();
     }
 
-    private void processaVendasAfiliado(List<Transaction> transactions) {
+    private int processaVendasAfiliado(List<Transaction> transactions) {
         List<Transaction> vendaAfiliado = transactions.stream()
                 .filter(transaction -> transaction.getTipo().equals("Venda Afiliado"))
                 .toList();
@@ -77,9 +82,11 @@ public class TransactionService {
             Curso curso = Curso.builder().name(venda.getProduto()).responsavel(produtor).build();
             saveVenda(Venda.builder().vendedor(vendedor).curso(curso).valor(venda.getValor()).build(), produtor);
         });
+
+        return vendaAfiliado.size();
     }
 
-    private void processaPagamentos(List<Transaction> transactions) {
+    private int processaPagamentos(List<Transaction> transactions) {
         List<Transaction> pagamentos = transactions.stream()
                 .filter(transaction -> transaction.getTipo().equals("Comissão Paga"))
                 .toList();
@@ -88,9 +95,11 @@ public class TransactionService {
             UserEntity produtor = userRepository.findByName(pagamento.getVendedor());
             userRepository.save(produtor, -1*pagamento.getValor());
         });
+
+        return pagamentos.size();
     }
 
-    private void processaRecebimentos(List<Transaction> transactions) {
+    private int processaRecebimentos(List<Transaction> transactions) {
         List<Transaction> recebimentos = transactions.stream()
                 .filter(transaction -> transaction.getTipo().equals("Comissão Recebida"))
                 .toList();
@@ -99,6 +108,8 @@ public class TransactionService {
             UserEntity afiliado = userRepository.findByName(pagamento.getVendedor());
             userRepository.save(afiliado, pagamento.getValor());
         });
+
+        return recebimentos.size();
     }
 
     @Transactional
