@@ -50,6 +50,7 @@ public class AuthController {
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto, @RequestParam String role) {
         if (userRepositoryJPA.findByName(registerDto.getUsername()) != null) {
