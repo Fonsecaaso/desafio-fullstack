@@ -1,0 +1,87 @@
+      /* Estilos gerais */
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+      }
+
+      .btn-landing {
+        background-color: white;
+        color: black;
+        border: none;
+        outline: none;
+        width: 150px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        float: left;
+      }
+      .logo {
+        margin-right: -50px; /* ajuste o valor conforme necessário */
+      }
+      
+      .button-container {
+        float: left;
+      }
+
+      .btn-group {
+        display: flex;
+        gap: 10px;
+        margin-right: auto;
+      }
+      
+      .login-container {
+        float: right;
+      }
+      /* Estilos do cabeçalho */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+        color: white;
+        padding: 10px;
+        overflow: hidden; 
+      }
+      
+      .btn-login {
+        padding: 10px;
+        background-color: white;
+        color: black;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        float: right;
+        height: 20px;
+        margin-right: 10px;
+      }
+      
+      .btn-cadastro {
+        padding: 10px;
+        background-color: black;
+        color: white;
+        border: 1px solid black;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        float: right;
+        height: 20px;
+        margin-left: 10px;
+      }
+      
+      .btn:hover {
+        background-color: #3e8e41;
+      }
+      
+      /* Estilos do corpo */
+      main {
+        text-align: center;
+        margin-top: 50px;
+      }
+      
+      img {
+        max-width: 100%;
+        height: auto;
+      }

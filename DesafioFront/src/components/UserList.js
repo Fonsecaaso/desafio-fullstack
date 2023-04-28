@@ -32,7 +32,7 @@ function UserList() {
   }
 
   const filteredUsers = users.filter((user) =>
-    user.nome.toLowerCase().includes(searchTerm.toLowerCase())
+    user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const produtor = filteredUsers.filter((user) => user.produtor === true);
@@ -65,7 +65,7 @@ function UserList() {
             <TableBody>
               {produtor.map((user) => (
                 <TableRow key={user.id}>
-                  <TableCell>{user.nome}</TableCell>
+                  <TableCell>{user.name}</TableCell>
                   <TableCell>{user.saldo}</TableCell>
                 </TableRow>
               ))}
@@ -88,7 +88,7 @@ function UserList() {
             <TableBody>
               {afiliado.map((user) => (
                 <TableRow key={user.id}>
-                  <TableCell>{user.nome}</TableCell>
+                  <TableCell>{user.name}</TableCell>
                   <TableCell>{user.saldo}</TableCell>
                 </TableRow>
               ))}

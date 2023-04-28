@@ -13,7 +13,6 @@ function Login() {
     axios
       .post("http://0.0.0.0:8080/api/auth/login", { username, password })
       .then((response) => {
-        // setLoggedIn(true);
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("username", username);
         navigate("/home"); // redireciona para a página principal
@@ -25,16 +24,16 @@ function Login() {
 
   return (
     <div className="login-container">
-      <h2>Login</h2>
-      <div className="form-group">
-        <label htmlFor="username">Username:</label>
-        <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
-      </div>
-      <div className="form-group">
-        <label htmlFor="password">Password:</label>
-        <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      </div>
-      <button className="btn-login" onClick={handleLogin}>Login</button>
+        <h2>Login</h2>
+        <div className="form-group">
+            <label htmlFor="username">Username:</label>
+            <input type="text" id="username" value={username} onChange={(e) => setUsername(e.target.value)} />
+        </div>
+        <div className="form-group">
+            <label htmlFor="password">Password:</label>
+            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </div>
+        <button className="btn" onClick={handleLogin}>Login</button>
     </div>
   );
   

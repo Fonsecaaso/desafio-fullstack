@@ -40,10 +40,10 @@ function Home(props) {
     <div className="container">
         <form>
             <Link to="/transactions">
-                <button className="btn-login" >Ver histórico de transações</button>
+                <button>Ver histórico de transações</button>
             </Link>
             <Link to="/userlist">
-                <button className="btn-login" >Ver saldo dos usuários</button>
+                <button>Ver saldo dos usuários</button>
             </Link>
         </form>
       <h2>Bem-vindo, {username}!</h2>
