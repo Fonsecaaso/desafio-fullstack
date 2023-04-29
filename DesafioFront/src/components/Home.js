@@ -24,11 +24,15 @@ function Home(props) {
               console.log(response.data);
               window.alert(response.data.successfulCases + " transações cadastradas \nupload bem sucedido");
             }else{
-              const messages = response.data.errors.map(pessoa => pessoa.message + " - linha " + pessoa.linha);
-              window.alert(response.data.successfulCases + " transações cadastradas" + messages.join("\n"));
+              const messages = response.data.errors.map(pessoa => pessoa.message + " - linha " + pessoa.line);
+              window.alert(response.data.successfulCases + " transações cadastradas \n\n" + messages.join("\n"));
             }
           })
           .catch((error) => {
+            if(error.response.status===422){
+              const messages = error.response.data.errors.map(pessoa => pessoa.message + " - linha " + pessoa.line);
+              window.alert("nenhuma transação cadastrada \n\n" + messages.join("\n"));
+            }
             console.log(error);
           });
     };

@@ -90,10 +90,10 @@ public class TransactionService {
 
         payments.forEach(payment -> {
             Optional<UserEntity> user = userRepository.findByName(payment.getSellerName());
-            if(payment.getType().equals("Commissão Paga"))
-                userService.updateBalance(user.get(), -1*payment.getValue());
-            if(payment.getType().equals("Commissão Recebida"))
+            if(payment.getType().equals("Comissão Paga"))
                 userService.updateBalance(user.get(), -payment.getValue());
+            if(payment.getType().equals("Comissão Recebida"))
+                userService.updateBalance(user.get(), payment.getValue());
         });
 
         return payments.size();
