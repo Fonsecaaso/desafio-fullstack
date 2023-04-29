@@ -8,7 +8,7 @@ public class UserDTO {
     @Schema(description = "User name", example = "CELSO DE MELO")
     private String name;
     @Schema(description = "User balance", example = "10000")
-    private Double saldo;
+    private Double balance;
     @Schema(description = "If he's or not a producer", example = "true")
-    private Boolean produtor;
+    private Boolean isProducer;
 }

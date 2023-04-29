@@ -5,8 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Erro {
-    private String linha;
+public class Error {
+    private String line;
     private String message;
-    private String conteudoInput;
+    private String lineContent;
 }

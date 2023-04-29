@@ -21,13 +21,13 @@ public class Transaction {
     private Long id;
 
     @Schema(description = "Transaction type", example = "Comissão Paga")
-    private String tipo;
+    private String type;
     @Schema(description = "Transaction date", example = "2022-01-15T19:20:30-03:00")
-    private String data;
+    private String date;
     @Schema(description = "Transaction product", example = "CURSO DE BEM-ESTAR")
-    private String produto;
+    private String product;
     @Schema(description = "Transaction amount in cents", example = "12750")
-    private Double valor;
+    private Double value;
     @Schema(description = "Transaction seller", example = "JOSE CARLOS")
-    private String vendedor;
+    private String sellerName;
 }

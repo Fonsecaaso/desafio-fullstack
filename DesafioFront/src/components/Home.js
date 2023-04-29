@@ -22,10 +22,10 @@ function Home(props) {
           .then((response) => {
             if(response.status===202){
               console.log(response.data);
-              window.alert("upload bem sucedido");
+              window.alert(response.data.successfulCases + " transações cadastradas \nupload bem sucedido");
             }else{
-              const messages = response.data.map(pessoa => pessoa.message + " - linha " + pessoa.linha);
-              window.alert(messages.join("\n"));
+              const messages = response.data.errors.map(pessoa => pessoa.message + " - linha " + pessoa.linha);
+              window.alert(response.data.successfulCases + " transações cadastradas" + messages.join("\n"));
             }
           })
           .catch((error) => {

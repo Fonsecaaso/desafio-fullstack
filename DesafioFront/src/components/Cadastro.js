@@ -44,11 +44,11 @@ function Cadastro() {
             <label>Tipo de usuário:</label>
             <div>
             <label htmlFor="Produtor">
-                <input type="radio" id="PRODUTOR" name="userType" value="PRODUTOR" checked={userType === "PRODUTOR"} onChange={(e) => setUserType(e.target.value)} />
+                <input type="radio" id="PRODUCER" name="userType" value="PRODUCER" checked={userType === "PRODUCER"} onChange={(e) => setUserType(e.target.value)} />
                 Produtor
             </label>
             <label htmlFor="Afiliado">
-                <input type="radio" id="AFILIADO" name="userType" value="AFILIADO" checked={userType === "AFILIADO"} onChange={(e) => setUserType(e.target.value)} />
+                <input type="radio" id="AFFILIATE" name="userType" value="AFFILIATE" checked={userType === "AFFILIATE"} onChange={(e) => setUserType(e.target.value)} />
                 Afiliado
             </label>
             </div>

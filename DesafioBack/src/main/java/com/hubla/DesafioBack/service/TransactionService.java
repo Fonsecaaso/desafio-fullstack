@@ -1,10 +1,8 @@
 package com.hubla.DesafioBack.service;
 
 import com.hubla.DesafioBack.entity.*;
-import com.hubla.DesafioBack.repository.CursoRepositoryI;
-import com.hubla.DesafioBack.repository.TransactionRepository;
-import com.hubla.DesafioBack.repository.UserRepositoryI;
-import com.hubla.DesafioBack.repository.VendaRepositoryI;
+import com.hubla.DesafioBack.entity.Error;
+import com.hubla.DesafioBack.repository.*;
 import com.hubla.DesafioBack.utils.TransactionType;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,109 +15,97 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
     @Autowired
-    UserRepositoryI userRepository;
+    UserRepository userRepository;
     @Autowired
-    CursoRepositoryI cursoRepository;
+    UserService userService;
     @Autowired
-    VendaRepositoryI vendaRepository;
+    ProductRepository productRepository;
+    @Autowired
+    SaleRepository saleRepository;
     @Autowired
     TransactionRepository transactionRepository;
 
-    public ResponseEntity<?> processTransactions(UploadRequest req) {
-        List<Erro> erros = new ArrayList<>();
-        List<Transaction> transactions = sanitizeInput(req, erros);
+    public ResponseEntity<?> processTransactions(UploadRequest request) {
+        List<Error> errors = new ArrayList<>();
+        List<Transaction> transactions = sanitizeInput(request, errors);
 
         int success = 0;
-
-        success += processaVendasProdutor(transactions);
-        success += processaVendasAfiliado(transactions);
-
-        success += processaPagamentos(transactions);
-        success += processaRecebimentos(transactions);
+        success += processSales(transactions);
+        success += processPayments(transactions);
 
         transactionRepository.saveAll(transactions);
 
-        if(success==0) return new ResponseEntity<>(erros, HttpStatus.UNPROCESSABLE_ENTITY);
+        UploadResponse response = new UploadResponse(errors,success);
 
-        if(erros.size()>0) return new ResponseEntity<>(erros, HttpStatus.PARTIAL_CONTENT);
+        if(success==0) return new ResponseEntity<>(response, HttpStatus.UNPROCESSABLE_ENTITY);
+        if(errors.size()>0) return new ResponseEntity<>(response, HttpStatus.PARTIAL_CONTENT);
 
-        return new ResponseEntity<>(transactions, HttpStatus.ACCEPTED);
-    }
-    private int processaVendasProdutor(List<Transaction> transactions) {
-        List<Transaction> vendaProdutor = transactions.stream()
-                .filter(transaction -> transaction.getTipo().equals("Venda Produtor"))
-                .toList();
-
-        vendaProdutor.forEach(venda -> {
-            UserEntity produtor = userRepository.findByName(venda.getVendedor());
-            if(produtor == null)
-                produtor = new UserEntity(venda.getVendedor(),venda.getValor(),true);
-
-            Curso curso = Curso.builder().name(venda.getProduto()).responsavel(produtor).build();
-            saveVenda(Venda.builder().vendedor(produtor).curso(curso).valor(venda.getValor()).build(), produtor);
-        });
-
-        return vendaProdutor.size();
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
-    private int processaVendasAfiliado(List<Transaction> transactions) {
-        List<Transaction> vendaAfiliado = transactions.stream()
-                .filter(transaction -> transaction.getTipo().equals("Venda Afiliado"))
+    private int processSales(List<Transaction> transactions) {
+        List<Transaction> sales = transactions.stream()
+                .filter(transaction -> transaction.getType().startsWith("Venda"))
                 .toList();
 
-        vendaAfiliado.forEach(venda -> {
-            UserEntity produtor = cursoRepository.findByNameCurso(venda.getProduto());
-            UserEntity vendedor = userRepository.findByName(venda.getVendedor());
-            if(vendedor == null){
-                vendedor = new UserEntity(venda.getVendedor(),0.0,false);
-                userRepository.save(vendedor, 0.0);
-            }
+        sales.forEach(sale -> {
+            UserEntity productOwner = sale.getType().equals("Venda Produtor")
+                    ? userRepository.findByName(sale.getSellerName())
+                        .orElseGet(() -> userRepository.save(new UserEntity(sale.getSellerName(), sale.getValue(), true)))
+                    : productRepository.findUserByProduct(sale.getProduct())
+                        .orElseGet(() -> userRepository.save(new UserEntity(sale.getSellerName(), sale.getValue(), true)));
 
-            Curso curso = Curso.builder().name(venda.getProduto()).responsavel(produtor).build();
-            saveVenda(Venda.builder().vendedor(vendedor).curso(curso).valor(venda.getValor()).build(), produtor);
+            UserEntity seller = userRepository.findByName(sale.getSellerName())
+                    .orElseGet(() -> {
+                        UserEntity newSeller = new UserEntity(sale.getSellerName(), 0.0, false);
+                        userService.updateBalance(newSeller, 0.0);
+                        return newSeller;
+                    });
+
+            Product product = productRepository.existsByName(sale.getProduct())
+                    ? productRepository.findByName(sale.getProduct())
+                    : productRepository.save(
+                    Product.builder()
+                            .name(sale.getProduct())
+                            .owner(productOwner)
+                            .build()
+            );
+
+            saveSell(Sale.builder().seller(seller).product(product).value(sale.getValue()).build(), productOwner);
         });
 
-        return vendaAfiliado.size();
+        return sales.size();
     }
 
-    private int processaPagamentos(List<Transaction> transactions) {
-        List<Transaction> pagamentos = transactions.stream()
-                .filter(transaction -> transaction.getTipo().equals("Comissão Paga"))
+
+    private int processPayments(List<Transaction> transactions) {
+        List<Transaction> payments = transactions.stream()
+                .filter(transaction -> transaction.getType().startsWith("Comissão"))
                 .toList();
 
-        pagamentos.forEach(pagamento -> {
-            UserEntity produtor = userRepository.findByName(pagamento.getVendedor());
-            userRepository.save(produtor, -1*pagamento.getValor());
+        payments.forEach(payment -> {
+            Optional<UserEntity> user = userRepository.findByName(payment.getSellerName());
+            if(payment.getType().equals("Commissão Paga"))
+                userService.updateBalance(user.get(), -1*payment.getValue());
+            if(payment.getType().equals("Commissão Recebida"))
+                userService.updateBalance(user.get(), -payment.getValue());
         });
 
-        return pagamentos.size();
-    }
-
-    private int processaRecebimentos(List<Transaction> transactions) {
-        List<Transaction> recebimentos = transactions.stream()
-                .filter(transaction -> transaction.getTipo().equals("Comissão Recebida"))
-                .toList();
-
-        recebimentos.forEach(pagamento -> {
-            UserEntity afiliado = userRepository.findByName(pagamento.getVendedor());
-            userRepository.save(afiliado, pagamento.getValor());
-        });
-
-        return recebimentos.size();
+        return payments.size();
     }
 
     @Transactional
-    private void saveVenda(Venda venda, UserEntity produtor){
-        userRepository.save(produtor, venda.getValor());
-        venda.setCurso(cursoRepository.save(venda.getCurso()));
-        vendaRepository.save(venda);
+    private void saveSell(Sale sale, UserEntity productOwner){
+        userService.updateBalance(productOwner, sale.getValue());
+        saleRepository.save(sale);
     }
 
-    private List<Transaction> sanitizeInput(UploadRequest req, List<Erro> erros){
+    private List<Transaction> sanitizeInput(UploadRequest req, List<Error> errors){
         String[] registers = req.getFile().split("\n");
 
         List<Transaction> transactions = new ArrayList<>();
@@ -127,56 +113,56 @@ public class TransactionService {
         for(int i=0; i<registers.length; i++){
             String register = registers[i];
             Transaction temp = Transaction.builder()
-                    .tipo(checkType(register.charAt(0)))
-                    .data(register.substring(1,26))
-                    .produto(register.substring(26,56).trim())
-                    .valor(Double.parseDouble(register.substring(56,66)))
-                    .vendedor(register.substring(66))
+                    .type(checkType(register.charAt(0)))
+                    .date(register.substring(1,26))
+                    .product(register.substring(26,56).trim())
+                    .value(Double.parseDouble(register.substring(56,66)))
+                    .sellerName(register.substring(66))
                     .build();
-            handleErrors(erros,temp,register,i);
+            handleErrors(errors,temp,register,i);
             transactions.add(temp);
         }
 
         return transactions;
     }
 
-    private void handleErrors(List<Erro> erros, Transaction temp, String register, int i) {
-        if(temp.getTipo().equals("erro")){
-            Erro erro = Erro.builder()
-                    .linha(String.valueOf(i+1))
-                    .message("campo tipo com input inválido")
-                    .conteudoInput(register)
+    private void handleErrors(List<Error> errors, Transaction temp, String register, int i) {
+        if(temp.getType().equals("erro")){
+            Error error = Error.builder()
+                    .line(String.valueOf(i+1))
+                    .message("campo tipo inválido")
+                    .lineContent(register)
                     .build();
-            erros.add(erro);
+            errors.add(error);
         }
-        if(temp.getVendedor()==null || temp.getVendedor().trim().length() == 0){
-            Erro erro = Erro.builder()
-                    .linha(String.valueOf(i+1))
+        if(temp.getSellerName()==null || temp.getSellerName().trim().length() == 0){
+            Error error = Error.builder()
+                    .line(String.valueOf(i+1))
                     .message("campo vendedor não preenchido")
-                    .conteudoInput(register)
+                    .lineContent(register)
                     .build();
-            erros.add(erro);
+            errors.add(error);
         }
-        if(temp.getProduto()==null || temp.getProduto().trim().length() == 0){
-            Erro erro = Erro.builder()
-                    .linha(String.valueOf(i+1))
+        if(temp.getProduct()==null || temp.getProduct().trim().length() == 0){
+            Error error = Error.builder()
+                    .line(String.valueOf(i+1))
                     .message("campo produto não preenchido")
-                    .conteudoInput(register)
+                    .lineContent(register)
                     .build();
-            erros.add(erro);
+            errors.add(error);
         }
 
         DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX");
         sdf.setLenient(false);
         try {
-            sdf.parse(temp.getData());
+            sdf.parse(temp.getDate());
         } catch (ParseException e) {
-            Erro erro = Erro.builder()
-                    .linha(String.valueOf(i+1))
+            Error error = Error.builder()
+                    .line(String.valueOf(i+1))
                     .message("campo data em formato errado")
-                    .conteudoInput(register)
+                    .lineContent(register)
                     .build();
-            erros.add(erro);
+            errors.add(error);
         }
     }
 

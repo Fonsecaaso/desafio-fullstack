@@ -1,6 +1,8 @@
 package com.hubla.DesafioBack.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +12,8 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
 
@@ -19,9 +23,9 @@ public class UserEntity {
     private String name;
     private String email;
 
-    private Double saldo;
+    private Double balance;
 
-    private Boolean produtor;
+    private Boolean isProducer;
 
     private String password;
 
@@ -31,10 +35,10 @@ public class UserEntity {
     private List<Role> roles = new ArrayList<>();
 
 
-    public UserEntity(String name, Double saldo, boolean produtor) {
+    public UserEntity(String name, Double balance, boolean isProducer) {
         this.name = name;
-        this.saldo = saldo;
-        this.produtor = produtor;
+        this.balance = balance;
+        this.isProducer = isProducer;
     }
 
 }

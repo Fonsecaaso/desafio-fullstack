@@ -53,20 +53,21 @@ public class AuthController {
     @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("register")
     public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto, @RequestParam String role) {
-        if (userRepositoryJPA.findByName(registerDto.getUsername()) != null) {
+        if (userRepositoryJPA.findByName(registerDto.getUsername()).isPresent()) {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
 
-        UserEntity user = new UserEntity();
-        user.setName(registerDto.getUsername());
-        user.setEmail(registerDto.getEmail());
-        user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
-
         Role roles = roleRepository.findByName(role).get();
-        user.setRoles(Collections.singletonList(roles));
+        UserEntity user = UserEntity.builder()
+                .name(registerDto.getUsername())
+                .email(registerDto.getEmail())
+                .isProducer(role.equals("PRODUCER"))
+                .password(passwordEncoder.encode((registerDto.getPassword())))
+                .roles(Collections.singletonList(roles))
+                .build();
 
         userRepositoryJPA.save(user);
 
-        return new ResponseEntity<>("User registered success!", HttpStatus.OK);
+        return new ResponseEntity<>("User registered!", HttpStatus.OK);
     }
 }

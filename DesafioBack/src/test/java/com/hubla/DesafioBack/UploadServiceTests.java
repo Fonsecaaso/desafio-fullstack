@@ -1,12 +1,9 @@
 package com.hubla.DesafioBack;
 
-import com.hubla.DesafioBack.entity.Erro;
+import com.hubla.DesafioBack.entity.Error;
 import com.hubla.DesafioBack.entity.UploadRequest;
 import com.hubla.DesafioBack.entity.UserEntity;
-import com.hubla.DesafioBack.repository.CursoRepositoryI;
-import com.hubla.DesafioBack.repository.TransactionRepository;
-import com.hubla.DesafioBack.repository.UserRepositoryI;
-import com.hubla.DesafioBack.repository.VendaRepositoryI;
+import com.hubla.DesafioBack.repository.*;
 import com.hubla.DesafioBack.service.TransactionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +35,7 @@ public class UploadServiceTests {
     @Mock
     CursoRepositoryI cursoRepository;
     @Mock
-    VendaRepositoryI vendaRepository;
+    SaleRepository saleRepository;
     @Mock
     TransactionRepository transactionRepository;
 
@@ -64,8 +61,8 @@ public class UploadServiceTests {
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
 
-        List<Erro> erros = (List<Erro>)res.getBody();
-        assertEquals(3, erros.size());
+        List<Error> errors = (List<Error>)res.getBody();
+        assertEquals(3, errors.size());
         assertEquals(HttpStatus.PARTIAL_CONTENT, res.getStatusCode());
     }
     @Test
@@ -78,9 +75,9 @@ public class UploadServiceTests {
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
 
-        List<Erro> erros = (List<Erro>)res.getBody();
-        assertEquals(1, erros.size());
-        assertEquals("campo tipo com input inválido", erros.get(0).getMessage());
+        List<Error> errors = (List<Error>)res.getBody();
+        assertEquals(1, errors.size());
+        assertEquals("campo tipo com input inválido", errors.get(0).getMessage());
         assertEquals(HttpStatus.PARTIAL_CONTENT, res.getStatusCode());
     }
     @Test
@@ -93,9 +90,9 @@ public class UploadServiceTests {
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
 
-        List<Erro> erros = (List<Erro>)res.getBody();
-        assertEquals(1, erros.size());
-        assertEquals("campo vendedor não preenchido", erros.get(0).getMessage());
+        List<Error> errors = (List<Error>)res.getBody();
+        assertEquals(1, errors.size());
+        assertEquals("campo vendedor não preenchido", errors.get(0).getMessage());
         assertEquals(HttpStatus.PARTIAL_CONTENT, res.getStatusCode());
     }
     @Test
@@ -108,9 +105,9 @@ public class UploadServiceTests {
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
 
-        List<Erro> erros = (List<Erro>)res.getBody();
-        assertEquals(1, erros.size());
-        assertEquals("campo data em formato errado", erros.get(0).getMessage());
+        List<Error> errors = (List<Error>)res.getBody();
+        assertEquals(1, errors.size());
+        assertEquals("campo data em formato errado", errors.get(0).getMessage());
         assertEquals(HttpStatus.PARTIAL_CONTENT, res.getStatusCode());
     }
     @Test
@@ -123,9 +120,9 @@ public class UploadServiceTests {
 
         ResponseEntity<?> res = transactionService.processTransactions(req);
 
-        List<Erro> erros = (List<Erro>)res.getBody();
-        assertEquals(1, erros.size());
-        assertEquals("campo produto não preenchido", erros.get(0).getMessage());
+        List<Error> errors = (List<Error>)res.getBody();
+        assertEquals(1, errors.size());
+        assertEquals("campo produto não preenchido", errors.get(0).getMessage());
         assertEquals(HttpStatus.PARTIAL_CONTENT, res.getStatusCode());
     }
 

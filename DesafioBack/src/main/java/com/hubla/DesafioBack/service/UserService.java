@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -23,5 +24,15 @@ public class UserService {
             ans.add(dto);
         }
         return ans;
+    }
+
+    public void updateBalance(UserEntity user, double amount){
+        if(userRepository.existsByName(user.getName())) {
+            Optional<UserEntity> userUpdated = userRepository.findByName(user.getName());
+            userUpdated.get().setBalance(userUpdated.get().getBalance() + amount);
+            userRepository.save(userUpdated.get());
+        }else{
+            userRepository.save(user);
+        }
     }
 }

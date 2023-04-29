@@ -25,7 +25,7 @@ function Transactions() {
 
   const filteredTransactions = transactions.filter((transaction) => {
     return (
-      transaction.vendedor.includes(searchValue) ||
+      transaction.sellerName.includes(searchValue) ||
       transaction.produto.includes(searchValue)
     );
   });
@@ -54,11 +54,11 @@ function Transactions() {
         <TableBody>
         {filteredTransactions.map((transaction) => (
               <TableRow key={transaction.id}>
-                <TableCell>{transaction.tipo}</TableCell>
-                <TableCell>{transaction.data}</TableCell>
-                <TableCell>{transaction.produto}</TableCell>
-                <TableCell>{transaction.valor}</TableCell>
-                <TableCell>{transaction.vendedor}</TableCell>
+                <TableCell>{transaction.type}</TableCell>
+                <TableCell>{transaction.date}</TableCell>
+                <TableCell>{transaction.product}</TableCell>
+                <TableCell>{transaction.value}</TableCell>
+                <TableCell>{transaction.sellerName}</TableCell>
               </TableRow>
             ))}
         </TableBody>

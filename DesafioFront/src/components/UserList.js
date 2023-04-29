@@ -35,8 +35,8 @@ function UserList() {
     user.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const produtor = filteredUsers.filter((user) => user.produtor === true);
-  const afiliado = filteredUsers.filter((user) => user.produtor === false);
+  const produtor = filteredUsers.filter((user) => user.isProducer === true);
+  const afiliado = filteredUsers.filter((user) => user.isProducer === false);
 
   return (
     <Grid container spacing={3}>
@@ -66,7 +66,7 @@ function UserList() {
               {produtor.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.saldo}</TableCell>
+                  <TableCell>{user.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -89,7 +89,7 @@ function UserList() {
               {afiliado.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.saldo}</TableCell>
+                  <TableCell>{user.balance}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
