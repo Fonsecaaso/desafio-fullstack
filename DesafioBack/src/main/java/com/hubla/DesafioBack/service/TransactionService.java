@@ -136,6 +136,7 @@ public class TransactionService {
             errors.add(error);
         }
         if(temp.getSellerName()==null || temp.getSellerName().trim().length() == 0){
+            temp.setType("erro");
             Error error = Error.builder()
                     .line(String.valueOf(i+1))
                     .message("campo vendedor não preenchido")
@@ -144,6 +145,7 @@ public class TransactionService {
             errors.add(error);
         }
         if(temp.getProduct()==null || temp.getProduct().trim().length() == 0){
+            temp.setType("erro");
             Error error = Error.builder()
                     .line(String.valueOf(i+1))
                     .message("campo produto não preenchido")
@@ -157,6 +159,7 @@ public class TransactionService {
         try {
             sdf.parse(temp.getDate());
         } catch (ParseException e) {
+            temp.setType("erro");
             Error error = Error.builder()
                     .line(String.valueOf(i+1))
                     .message("campo data em formato errado")
