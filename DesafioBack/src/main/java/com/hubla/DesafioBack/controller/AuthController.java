@@ -62,6 +62,7 @@ public class AuthController {
                 .name(registerDto.getUsername())
                 .email(registerDto.getEmail())
                 .isProducer(role.equals("PRODUCER"))
+                .balance(0.0)
                 .password(passwordEncoder.encode((registerDto.getPassword())))
                 .roles(Collections.singletonList(roles))
                 .build();
