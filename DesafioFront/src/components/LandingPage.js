@@ -1,6 +1,6 @@
-import './style_landingpage.css';
-import hubla from './hubla.png'
-import logo from './hubla.svg'
+import '../styles/landingpage.css';
+import hubla from '../images/hubla.png'
+import logo from '../images/hubla.svg'
 import { Link, Navigate } from "react-router-dom";
 
 function LandingPage() {  
@@ -20,7 +20,7 @@ function LandingPage() {
           <a href="/login" class="btn-login">Já sou membro</a>
         </div>
         <div>
-          <a href="/cadastro" class="btn-cadastro">Comece agora</a>
+          <a href="/register" class="btn-cadastro">Comece agora</a>
         </div>
       </header>
       <img src={hubla} />

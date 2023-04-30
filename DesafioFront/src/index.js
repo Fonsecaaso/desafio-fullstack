@@ -9,7 +9,7 @@ import UserList from "./components/UserList";
 import Login from "./components/Login";
 import LandingPage from "./components/LandingPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Cadastro from './components/Cadastro';
+import Register from './components/Register';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,7 +22,7 @@ root.render(
         <Route path="transactions" element={<Transactions />} />
         <Route path="userlist" element={<UserList />} />
         <Route path="landing" element={<LandingPage />} />
-        <Route path="cadastro" element={<Cadastro />} />
+        <Route path="register" element={<Register />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

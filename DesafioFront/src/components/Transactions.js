@@ -26,7 +26,7 @@ function Transactions() {
   const filteredTransactions = transactions.filter((transaction) => {
     return (
       transaction.sellerName.includes(searchValue) ||
-      transaction.produto.includes(searchValue)
+      transaction.product.includes(searchValue)
     );
   });
 

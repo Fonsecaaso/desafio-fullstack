@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import './styles.css';
+import '../styles/landingpage.css';
 
-function Cadastro() {
+function Register() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -53,10 +53,10 @@ function Cadastro() {
             </label>
             </div>
         </div>
-        <button onClick={handleLogin}>cadastrar</button>
+        <button className="btn" onClick={handleLogin}>cadastrar</button>
     </div>
   );
   
 }
 
-export default Cadastro;
+export default Register;

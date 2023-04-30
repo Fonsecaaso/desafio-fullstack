@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import './styles.css';
+import '../styles/styles.css';
 import { Link, Navigate } from "react-router-dom";
 
 function Home(props) {
@@ -14,6 +14,14 @@ function Home(props) {
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
+    
+    const fileName = file.name;
+    const fileExtension = fileName.split(".").pop();
+  
+    if (fileExtension !== "txt") {
+      window.alert("Arquivo com formato inválido. Por favor, selecione um arquivo .txt");
+      return;
+    }
     
     reader.onload = (event) => {
       const fileContents = event.target.result;
@@ -44,10 +52,10 @@ function Home(props) {
     <div className="container">
         <form>
             <Link to="/transactions">
-                <button>Ver histórico de transações</button>
+                <button className="btn">Ver histórico de transações</button>
             </Link>
             <Link to="/userlist">
-                <button>Ver saldo dos usuários</button>
+                <button className="btn">Ver saldo dos usuários</button>
             </Link>
         </form>
       <h2>Bem-vindo, {username}!</h2>
