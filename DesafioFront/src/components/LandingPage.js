@@ -1,20 +1,19 @@
 import '../styles/landingpage.css';
 import hubla from '../images/hubla.png'
 import logo from '../images/hubla.svg'
-import { Link, Navigate } from "react-router-dom";
 
 function LandingPage() {  
   return (
     <div>
     <body>
       <header>
-        <a href="https://hub.la/" target="_blank">
-        <img src={logo} width={100}/>
+        <a href="https://hub.la/">
+        <img src={logo} width={100} alt="Hub.la logo"/>
         </a>
         <div class="btn-group">
-          <button className="btn-landing">Blog</button>
-          <button className="btn-landing">Ajuda</button>
-          <button className="btn-landing">Podcast</button>
+          <button className="underline-on-hover">Blog</button>
+          <button className="underline-on-hover">Ajuda</button>
+          <button className="underline-on-hover">Podcast</button>
         </div>
         <div>
           <a href="/login" class="btn-login">Já sou membro</a>
@@ -23,7 +22,7 @@ function LandingPage() {
           <a href="/register" class="btn-cadastro">Comece agora</a>
         </div>
       </header>
-      <img src={hubla} />
+      <img src={hubla} alt="Hub.la website screenshot"/>
     </body>  
     </div>
   );
