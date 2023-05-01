@@ -18,9 +18,10 @@ function Register() {
       .then((response) => {
         localStorage.setItem("token", response.data.accessToken);
         localStorage.setItem("username", username);
-        navigate("/login"); // redireciona para a página principal
+        navigate("/login"); 
       })
       .catch((error) => {
+        window.alert("nome de usuário já em uso\ntente novamente")
         console.log(error);
       });
   };

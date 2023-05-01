@@ -18,6 +18,7 @@ function Login() {
         navigate("/home"); // redireciona para a página principal
       })
       .catch((error) => {
+        window.alert("usuário ou senha incorreto\ntente novamente");
         console.log(error);
       });
   };
