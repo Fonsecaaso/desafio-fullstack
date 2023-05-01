@@ -19,11 +19,11 @@ public class Sale {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "curso")
+    @JoinColumn(name = "product")
     Product product;
     Double value;
 
     @ManyToOne
-    @JoinColumn(name = "vendedor")
+    @JoinColumn(name = "seller")
     UserEntity seller;
 }

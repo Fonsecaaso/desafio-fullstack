@@ -1,35 +1,63 @@
-# Sistema de Upload e Gerenciamento de Transações Financeiras
+# Financial Transactions Upload and Management System
 
-Este é um sistema desenvolvido para fazer o upload de transações financeiras, integrado ao ecossistema da Hubla, como vendas feitas por produtores ou filiados, e comissões recebidas ou pagas. Além disso, o sistema permite que os usuários visualizem o balanço de suas contas e o histórico de todas as transações realizadas.
+This is a system designed to upload financial transactions, integrated into the Hubla ecosystem, such as sales made by producers or affiliates, and commissions received or paid. In addition, the system allows users to view the balance of their accounts and the history of all transactions carried out.
 
-O sistema é composto por um frontend em React e um backend em Spring, e é executado em contêineres do Docker. Para executar o sistema, basta executar o comando docker-compose up na raiz do diretório.
+The system consists of a frontend in React and a backend in Spring, and runs on Docker containers. To run the system, just run the docker-compose up command in the root of the directory.
 
-## Funcionalidades
+## Features
 
-- Upload de transações financeiras
-- Visualização do balanço da conta do usuário
-- Visualização do histórico de todas as transações financeiras
+- Upload of financial transactions
+- Visualization of user account balance
+- View the history of all financial transactions
 
-## Tecnologias
+## Technologies
 
 - React
 - Spring
 - Docker
 - MySQL
 
-## Como executar
+## How run
 
-Para executar o sistema, certifique-se de ter o Docker instalado em sua máquina e execute o seguinte comando na raiz do diretório:
+To run the system, make sure you have Docker and docker-compose installed on your machine and run the following command in the root of the directory:
 
 
 ``` docker-compose up ```
 
-Isso iniciará o frontend, o backend e o banco de dados em contêineres do Docker. O frontend estará acessível em http://localhost:3000, enquanto o backend estará acessível em http://localhost:8085.
+This will start the frontend, backend and database in Docker containers. The frontend will be accessible from http://localhost:3000, while the backend will be accessible from http://localhost:8085.
 
+## Documentation
 
-## Documentação
+### Backend API
+To document the backend API, we use Swagger. You can access the API documentation at http://localhost:8085/swagger-ui/index.html when the backend service is running. There you will find all the API endpoints, along with the expected parameters and responses. This makes it easier to understand how the API works and how to interact with it.
 
-Para documentar a API backend, usamos o Swagger. Você pode acessar a documentação da API em http://localhost:8085/swagger-ui/index.html quando o serviço de backend estiver sendo executado. Lá você encontrará todos os endpoints da API, juntamente com os parâmetros e respostas esperados. Isso torna mais fácil entender como a API funciona e como interagir com ela.
+### Database
+The data model for this database includes the following tables and columns:
 
+- users table with columns id, balance, email, is_producer, name, and password.
+- sales table with columns id, value, product, and seller.
+- products table with columns id, name, and owner.
+- user_roles table with columns user_id and role_id.
+- roles table with columns id and name.
+- transactions table with columns id, date, product, seller_name, type, and value.
 
-Este projeto foi desenvolvido por Mateus Fonseca Piris. Se você tiver alguma dúvida ou sugestão, entre em contato comigo pelo email mateusfonseca27@yahoo.com.br.
+The users table holds information about registered users, including their unique id, balance, email, whether they are a is_producer or not, name, and password.
+
+The sales table tracks the sales made by users, including the id of the sale, the value of the sale, the product sold, and the user who made the sale.
+
+The products table lists the available id and name of each product, along with the user who created it.
+
+The user_roles table is used to assign roles to users, with user_id and role_id columns linking to the respective tables.
+
+The roles table defines the different roles available for users, with id and name columns.
+
+The transactions table records all the financial transactions, including the id of the transaction, the date of the transaction, the product involved, the seller of the product, the type of transaction, and the value of the transaction.
+
+This data model allows for tracking users, their sales, the products they sell and buy, their roles, and all the financial transactions that take place.
+
+Check the diagram below:
+
+![](db_hubla.png)
+
+### Contact 
+This project was developed by Mateus Fonseca Piris. If you have any questions or suggestions, please contact me at mateusfonseca27@yahoo.com.br.
